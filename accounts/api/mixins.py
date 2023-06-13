@@ -1,4 +1,5 @@
 from rest_framework.exceptions import MethodNotAllowed
+from rest_framework.permissions import AllowAny, SAFE_METHODS
 
 
 class RetrieveMethodNotAllowedMixin:
@@ -41,3 +42,13 @@ class DestroyMethodNotAllowedMixin:
     def destroy(self, request, *args, **kwargs):
         # Raise an exception to deny DELETE request to delete a specific object by ID
         raise MethodNotAllowed(request.method)
+
+
+class AllowAnyInSafeMethodOrCustomPermissionMixin:
+    """
+    Mixin to allow safe methods (GET, HEAD, OPTIONS) for any user,
+    while applying permission classes for other methods.
+    """
+
+    def get_permissions(self):
+        return [AllowAny] if self.request.method in SAFE_METHODS else self.permission_classes

@@ -129,6 +129,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = 'accounts.User'
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
@@ -230,7 +232,7 @@ DJOSER = {
         'user_create': 'accounts.api.serializers.CustomUserCreateSerializer',
         'user_create_password_retype': 'djoser.serializers.UserCreatePasswordRetypeSerializer',
         'user_delete': 'djoser.serializers.UserDeleteSerializer',
-        # 'user': 'accounts.api.serializers.CustomUserSerializer',
+        'user': 'accounts.api.serializers.CustomUserSerializer',
         'current_user': 'accounts.api.serializers.CustomUserSerializer',
         'token': 'djoser.serializers.TokenSerializer',
         'token_create': 'djoser.serializers.TokenCreateSerializer',
@@ -254,8 +256,8 @@ DJOSER = {
 SPECTACULAR_SETTINGS = {
     # General schema metadata. Refer to spec for valid inputs
     # https://spec.openapis.org/oas/v3.0.3#openapi-object
-    'TITLE': 'E-Commerce API',
-    'DESCRIPTION': 'E-Commerce api endpoints',
+    'TITLE': 'Finder API',
+    'DESCRIPTION': 'Finder api endpoints',
     'TOS': None,
     # Optional: MAY contain "name", "url", "email"
     'CONTACT': {},
