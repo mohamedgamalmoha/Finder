@@ -55,17 +55,14 @@ class Profile(models.Model):
 
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, *args, **kwargs):
-    if instance and created:
+    if instance and created and not (instance.is_staff or instance.is_superuser):
         exclude = Profile.objects.values_list('qr_code')
         number = generate_random_number(0, 10_000, exclude)
         instance.profile = Profile.objects.create(user=instance, qr_code=number)
 
 
 @receiver(pre_save, sender=Profile)
-def change_profile(sender, instance, raw, using, update_fields, **kwargs):
-    # Ignore if the qr_code value is not changes
-    if 'qr_code' not in update_fields:
-        return
+def change_profile(sender, instance, *args, **kwargs):
 
     # Get instance tht have the same value of qr_code
     another_instance = get_object_or_none(sender, qr_code=instance.qr_code)
