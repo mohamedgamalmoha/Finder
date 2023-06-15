@@ -37,6 +37,7 @@ class Profile(models.Model):
     country = models.CharField(max_length=200, null=True, blank=True, verbose_name=_('Country'))
     address = models.CharField(max_length=200, null=True, blank=True, verbose_name=_('Address'))
     image = models.URLField(null=True, blank=True, verbose_name=_('Image'))
+    cover = models.URLField(null=True, blank=True, verbose_name=_('Cover Image'))
     create_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Creation Date'))
     update_at = models.DateTimeField(auto_now=True, verbose_name=_('Update Date'))
 
