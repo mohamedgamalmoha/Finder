@@ -56,9 +56,9 @@ class Profile(models.Model):
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, *args, **kwargs):
     if instance and created:
-        exclude = sender.objects.values_list('qr_code')
+        exclude = Profile.objects.values_list('qr_code')
         number = generate_random_number(0, 10_000, exclude)
-        instance.profile = sender.objects.create(user=instance, qr_code=number)
+        instance.profile = Profile.objects.create(user=instance, qr_code=number)
 
 
 @receiver(pre_save, sender=Profile)
