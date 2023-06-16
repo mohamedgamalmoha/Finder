@@ -1,9 +1,10 @@
-from rest_framework import serializers
-
 from django.contrib.auth.backends import get_user_model
+
+from rest_framework import serializers
+from rest_flex_fields import FlexFieldsModelSerializer
 from djoser.serializers import UserSerializer, UserCreateSerializer
 
-from accounts.models import Profile
+from accounts.models import Profile, VisitLog
 
 
 User = get_user_model()
@@ -29,3 +30,14 @@ class CustomUserSerializer(UserSerializer):
     class Meta(UserSerializer.Meta):
         fields = (*UserSerializer.Meta.fields, 'profile')
         read_only_fields = (*UserSerializer.Meta.read_only_fields, 'profile')
+
+
+class VisitLogSerializer(FlexFieldsModelSerializer):
+
+    class Meta:
+        model = VisitLog
+        fields = '__all__'
+        read_only_fields = ('visitor', 'create_at')
+        expandable_fields = {
+            'profile': ProfileSerializer
+        }

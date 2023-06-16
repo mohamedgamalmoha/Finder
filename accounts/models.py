@@ -53,6 +53,17 @@ class Profile(models.Model):
         ordering = ['-create_at', '-update_at']
 
 
+class VisitLog(models.Model):
+    visitor = models.ForeignKey(User, null=True, on_delete=models.CASCADE, related_name='visits',
+                                verbose_name=_('Visitor'))
+    profile = models.ForeignKey(Profile, null=True, on_delete=models.CASCADE, related_name='visits',
+                                verbose_name=_('Profile'))
+    create_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Creation Date'))
+
+    class Meta:
+        ordering = ['-create_at', ]
+
+
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, *args, **kwargs):
     if instance and created and not (instance.is_staff or instance.is_superuser):
