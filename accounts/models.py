@@ -38,8 +38,8 @@ class Profile(models.Model):
     city = models.CharField(max_length=200, null=True, blank=True, verbose_name=_('City'))
     country = models.CharField(max_length=200, null=True, blank=True, verbose_name=_('Country'))
     address = models.CharField(max_length=200, null=True, blank=True, verbose_name=_('Address'))
-    image = models.URLField(null=True, blank=True, verbose_name=_('Image'))
-    cover = models.URLField(null=True, blank=True, verbose_name=_('Cover Image'))
+    image = models.ImageField(null=True, blank=True, verbose_name=_('Image'), upload_to='images/')
+    cover = models.ImageField(null=True, blank=True, verbose_name=_('Cover Image'), upload_to='covers/')
     qr_code = models.PositiveIntegerField(unique=True)
     create_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Creation Date'))
     update_at = models.DateTimeField(auto_now=True, verbose_name=_('Update Date'))
@@ -61,17 +61,17 @@ def create_profile(sender, instance, created, *args, **kwargs):
         instance.profile = Profile.objects.create(user=instance, qr_code=number)
 
 
-@receiver(pre_save, sender=Profile)
-def change_profile(sender, instance, *args, **kwargs):
-
-    # Get instance tht have the same value of qr_code
-    another_instance = get_object_or_none(sender, qr_code=instance.qr_code)
-    if another_instance is None:
-        return
-
-    # Get the pre values of instance
-    pre_instance = get_object_or_none(sender, pk=instance.pk)
-
-    # Update the another instance with the pre qr_Code value
-    another_instance.qr_code = pre_instance.qr_code
-    another_instance.save()
+# @receiver(pre_save, sender=Profile)
+# def change_profile(sender, instance, *args, **kwargs):
+#
+#     # Get instance tht have the same value of qr_code
+#     another_instance = get_object_or_none(sender, qr_code=instance.qr_code)
+#     if another_instance is None:
+#         return
+#
+#     # Get the pre values of instance
+#     pre_instance = get_object_or_none(sender, pk=instance.pk)
+#
+#     # Update the another instance with the pre qr_Code value
+#     another_instance.qr_code = pre_instance.qr_code
+#     another_instance.save()
