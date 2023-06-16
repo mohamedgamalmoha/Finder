@@ -30,7 +30,7 @@ class ProfileManager(models.Manager):
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name=_('User'), related_name='profile')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile', verbose_name=_('User'))
     position = models.CharField(null=True, blank=True, max_length=100, verbose_name=_('Position'))
     bio = models.TextField(null=True, blank=True, verbose_name=_('Bio'))
     phone_number_1 = PhoneNumberField(null=True, blank=True, verbose_name=_('Phone Number 1'))
@@ -38,9 +38,9 @@ class Profile(models.Model):
     city = models.CharField(max_length=200, null=True, blank=True, verbose_name=_('City'))
     country = models.CharField(max_length=200, null=True, blank=True, verbose_name=_('Country'))
     address = models.CharField(max_length=200, null=True, blank=True, verbose_name=_('Address'))
-    image = models.ImageField(null=True, blank=True, verbose_name=_('Image'), upload_to='images/')
-    cover = models.ImageField(null=True, blank=True, verbose_name=_('Cover Image'), upload_to='covers/')
-    qr_code = models.PositiveIntegerField(unique=True)
+    image = models.ImageField(null=True, blank=True, upload_to='images/', verbose_name=_('Image'))
+    cover = models.ImageField(null=True, blank=True, upload_to='covers/', verbose_name=_('Cover Image'))
+    qr_code = models.PositiveIntegerField(unique=True, verbose_name=_('QR Code'))
     create_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Creation Date'))
     update_at = models.DateTimeField(auto_now=True, verbose_name=_('Update Date'))
 
@@ -57,7 +57,7 @@ class VisitLog(models.Model):
     visitor = models.ForeignKey(User, null=True, on_delete=models.CASCADE, related_name='visits',
                                 verbose_name=_('Visitor'))
     profile = models.ForeignKey(Profile, null=True, on_delete=models.CASCADE, related_name='visits',
-                                verbose_name=_('Profile'))
+                                verbose_name=_('Visited Profile'))
     create_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Creation Date'))
 
     class Meta:
