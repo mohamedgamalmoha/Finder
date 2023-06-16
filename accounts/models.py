@@ -17,7 +17,8 @@ class User(AbstractUser):
     REQUIRED_FIELDS = ['username', 'first_name', 'last_name', 'nick_name']
 
     class Meta(AbstractUser.Meta):
-        ...
+        verbose_name = _('User')
+        verbose_name_plural = _('Users')
 
     def __str__(self):
         return self.email
@@ -50,6 +51,8 @@ class Profile(models.Model):
         return self.user.username
 
     class Meta:
+        verbose_name = _('Profile')
+        verbose_name_plural = _('Profiles')
         ordering = ['-create_at', '-update_at']
 
 
@@ -61,6 +64,8 @@ class VisitLog(models.Model):
     create_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Creation Date'))
 
     class Meta:
+        verbose_name = _('Visit Log')
+        verbose_name_plural = _('Visit Logs')
         ordering = ['-create_at', ]
 
 
