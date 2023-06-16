@@ -17,7 +17,14 @@ import environ
 
 
 # Initialise environment variables
-env = environ.Env()
+env = environ.Env(
+    DEBUG=(bool, False),
+    EMAIL_USE_TLS=(bool, True),
+    SEND_ACTIVATION_EMAIL=(bool, True),
+    SEND_CONFIRMATION_EMAIL=(bool, True),
+    USERNAME_CHANGED_EMAIL_CONFIRMATION=(bool, True),
+    PASSWORD_CHANGED_EMAIL_CONFIRMATION=(bool, True)
+)
 environ.Env.read_env()
 
 
@@ -242,13 +249,13 @@ DJOSER = {
     'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
     'USERNAME_RESET_CONFIRM_URL': 'username/reset/confirm/{uid}/{token}',
     'ACTIVATION_URL': 'activate/{uid}/{token}',
-    'SEND_ACTIVATION_EMAIL': env('SEND_ACTIVATION_EMAIL'),
-    'SEND_CONFIRMATION_EMAIL': env('SEND_CONFIRMATION_EMAIL'),
+    'SEND_ACTIVATION_EMAIL': bool(env('SEND_ACTIVATION_EMAIL')),
+    'SEND_CONFIRMATION_EMAIL': bool(env('SEND_CONFIRMATION_EMAIL')),
     'SET_PASSWORD_RETYPE¶': True,
     'USER_CREATE_PASSWORD_RETYPE': False,
     'PASSWORD_RESET_SHOW_EMAIL_NOT_FOUND': True,
-    'USERNAME_CHANGED_EMAIL_CONFIRMATION¶': True,
-    'PASSWORD_CHANGED_EMAIL_CONFIRMATION¶': True,
+    'USERNAME_CHANGED_EMAIL_CONFIRMATION¶': bool(env('USERNAME_CHANGED_EMAIL_CONFIRMATION')),
+    'PASSWORD_CHANGED_EMAIL_CONFIRMATION¶': bool(env('USERNAME_CHANGED_EMAIL_CONFIRMATION')),
     'SOCIAL_AUTH_TOKEN_STRATEGY': 'djoser.social.token.jwt.TokenStrategy',
     'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS': ['/google', '/facebook'],
 }
