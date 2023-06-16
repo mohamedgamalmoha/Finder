@@ -21,7 +21,8 @@ from django.conf.urls.static import static
 from django.urls import path, re_path, include
 from django.views.generic import TemplateView
 
-from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
+from drf_spectacular.views import (SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView,
+                                   SpectacularJSONAPIView)
 
 
 urlpatterns = [
@@ -31,6 +32,7 @@ urlpatterns = [
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     path('api/swagger/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger'),
     path('api/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
+    path('api/json/', SpectacularJSONAPIView.as_view(), name='spec_json'),
 
     # Custom Apps
     path('api/', include('accounts.api.urls', namespace='accounts')),
