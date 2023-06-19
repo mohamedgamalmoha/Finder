@@ -1,8 +1,10 @@
-from django.contrib import admin
+from django.contrib import admin, messages
 from django.contrib.auth.admin import UserAdmin
+from django.utils.safestring import mark_safe
+from django.utils.translation import gettext_lazy as _
 
 from .models import Profile, User
-from .utils import create_profile_html
+from .utils import create_profile_html, get_change_admin_url
 
 
 class ProfileAdmin(admin.ModelAdmin):
@@ -27,6 +29,24 @@ class ProfileAdmin(admin.ModelAdmin):
             ('cover', 'show_cover'),
         )}),
     )
+
+    def formfield_for_dbfield(self, db_field, request, **kwargs):
+        """
+        Show a link to the model with this field already exists.
+        """
+
+        field = super().formfield_for_dbfield(db_field, request, **kwargs)
+        if db_field.unique:
+            try:
+                model = db_field.model.objects.get(qr_code=request.POST.get('qr_code'))
+                url = get_change_admin_url(model)
+            except db_field.model.DoesNotExist:
+                ...
+            except Exception as e:
+                messages.error(request, e)
+            else:
+                messages.info(request, mark_safe(_(f"If you wanna edit the duplicate instance, <a style='color: white;' href='{url}'>Go here</a>")))
+        return field
 
     def show_image(self, obj):
         if obj.image:

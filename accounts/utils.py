@@ -1,6 +1,9 @@
 import random
 from typing import List
+
+from django.urls import reverse
 from django.utils.safestring import mark_safe
+from django.contrib.contenttypes.models import ContentType
 
 
 def generate_random_number(lower_limit: int, upper_limit: int, exclude: List[int] = None) -> int:
@@ -20,4 +23,12 @@ def get_object_or_none(model, *args, **kwargs):
 
 
 def create_profile_html(image):
-    return mark_safe(f"""<a href='{image.url}'><img src="{image.url}" style="height:60%; border-radius: 50%; border: 6px solid gray;"></a>""")
+    return mark_safe(
+        f"""<a href='{image.url}'><img src="{image.url}" style="height:60%; border-radius: 50%; border: 6px solid gray;"></a>""")
+
+
+def get_change_admin_url(model_instance):
+    content_type = ContentType.objects.get_for_model(model_instance.__class__)
+    admin_url = reverse("admin:{}_{}_change".format(content_type.app_label, content_type.model),
+                        args=(model_instance.pk,))
+    return admin_url
