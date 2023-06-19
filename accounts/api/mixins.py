@@ -30,6 +30,11 @@ class PatchMethodNotAllowedMixin:
         raise MethodNotAllowed(request.method)
 
 
+class UpdateMethodNotAllowedMixin(PutMethodNotAllowedMixin, PatchMethodNotAllowedMixin):
+    # Raise an exception to deny PATCH / PUT request to update a specific object by ID
+    ...
+
+
 class CreateMethodNotAllowedMixin:
 
     def create(self, request, *args, **kwargs):
