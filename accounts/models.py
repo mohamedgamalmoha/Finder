@@ -59,6 +59,7 @@ class VisitLog(models.Model):
                                 verbose_name=_('Visitor'))
     profile = models.ForeignKey(Profile, null=True, on_delete=models.CASCADE, related_name='visits',
                                 verbose_name=_('Visited Profile'))
+    is_scanned = models.BooleanField(default=False, blank=True, verbose_name=_('Is scanned by qr code'))
     create_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Creation Date'))
 
     class Meta:

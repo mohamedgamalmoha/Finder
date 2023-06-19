@@ -1,13 +1,11 @@
 from rest_framework.viewsets import ModelViewSet
 
 from accounts.models import Profile, VisitLog
-from .serializers import ProfileSerializer, VisitLogSerializer
 from .permissions import IsUserWithProfile
-
-from .mixins import (CreateMethodNotAllowedMixin, DestroyMethodNotAllowedMixin,
-                     AllowAnyInSafeMethodOrCustomPermissionMixin)
-
 from .filters import ProfileFilter, VisitLogFilter
+from .serializers import ProfileSerializer, VisitLogSerializer
+from .mixins import (CreateMethodNotAllowedMixin, DestroyMethodNotAllowedMixin, UpdateMethodNotAllowedMixin,
+                     AllowAnyInSafeMethodOrCustomPermissionMixin)
 
 
 class ProfileViewSet(CreateMethodNotAllowedMixin, DestroyMethodNotAllowedMixin,
@@ -18,7 +16,8 @@ class ProfileViewSet(CreateMethodNotAllowedMixin, DestroyMethodNotAllowedMixin,
     permission_classes = [IsUserWithProfile]
 
 
-class VisitLogViewSet(DestroyMethodNotAllowedMixin, AllowAnyInSafeMethodOrCustomPermissionMixin, ModelViewSet):
+class VisitLogViewSet(DestroyMethodNotAllowedMixin, UpdateMethodNotAllowedMixin,
+                      AllowAnyInSafeMethodOrCustomPermissionMixin, ModelViewSet):
     queryset = VisitLog.objects.all()
     serializer_class = VisitLogSerializer
     filterset_class = VisitLogFilter
