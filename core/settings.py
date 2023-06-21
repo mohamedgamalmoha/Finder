@@ -224,6 +224,7 @@ SIMPLE_JWT = {
 DJOSER = {
     'PERMISSIONS': {
         'token_destroy': ['rest_framework.permissions.IsAuthenticated'],
+        'user_delete': ['accounts.api.permissions.DenyDelete'],
     },
     'SERIALIZERS': {
         'activation': 'djoser.serializers.ActivationSerializer',
