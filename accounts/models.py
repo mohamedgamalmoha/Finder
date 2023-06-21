@@ -71,6 +71,6 @@ class VisitLog(models.Model):
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, *args, **kwargs):
     if instance and created and not (instance.is_staff or instance.is_superuser):
-        qr_codes = Profile.objects.values_list('qr_code')
-        new_qr_code = max(qr_codes) + 1 if qr_codes else 0
+        max_qr_code = Profile.objects.aggregate(models.Max('qr_code'))['qr_code__max']
+        new_qr_code = 1 if max_qr_code is None else max_qr_code + 1
         instance.profile = Profile.objects.create(user=instance, qr_code=new_qr_code)
