@@ -54,6 +54,9 @@ class AllowAnyInSafeMethodOrCustomPermissionMixin:
     Mixin to allow safe methods (GET, HEAD, OPTIONS) for any user,
     while applying permission classes for other methods.
     """
+    save_method_permission_classes = [AllowAny]
 
-    def get_permissions(self):
-        return [AllowAny] if self.request.method in SAFE_METHODS else self.permission_classes
+    def get_permission_classes(self, request):
+        if request.method in SAFE_METHODS:
+            return self.save_method_permission_classes
+        return super().get_permission_classes(request)
