@@ -20,3 +20,9 @@ class IsUserWithProfile(BasePermission):
         if isinstance(obj, VisitLog):
             return request.user == obj.visitor
         return False
+
+
+class DenyDelete(BasePermission):
+
+    def has_permission(self, request, view):
+        return not request.method == 'DELETE'
