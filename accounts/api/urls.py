@@ -1,6 +1,7 @@
-from django.urls import path, include
+from django.urls import path, re_path, include
 
 from rest_framework import routers
+from djoser.social.views import ProviderAuthView
 
 from .views import ProfileViewSet, VisitLogViewSet
 
@@ -14,6 +15,6 @@ router.register(r'visit', VisitLogViewSet, basename='visit')
 urlpatterns = [
     path('auth/', include('djoser.urls.base'), name='base'),
     path('auth/', include('djoser.urls.jwt'), name='jwt'),
-    path('auth/', include('djoser.social.urls'), name='social'),
+    re_path(r"^auth/social/(?P<provider>\S+)/$", ProviderAuthView.as_view(), name="social-auth-provider"),
     path('', include(router.urls), name='routes'),
 ]
