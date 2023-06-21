@@ -1,6 +1,6 @@
 from rest_framework.permissions import BasePermission, SAFE_METHODS
 
-from account.models import Profile, VisitLog
+from accounts.models import Profile, VisitLog
 
 
 class ReadOnly(BasePermission):
