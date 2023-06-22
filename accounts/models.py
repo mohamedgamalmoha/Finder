@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -5,6 +7,12 @@ from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
 
 from phonenumber_field.modelfields import PhoneNumberField
+
+
+class GenderChoice(models.TextChoices):
+    MALE = "M", _("Male")
+    FEMALE = "F", _("Female")
+    OTHER = "O", _("Other")
 
 
 class User(AbstractUser):
@@ -40,6 +48,9 @@ class Profile(models.Model):
     image = models.ImageField(null=True, blank=True, upload_to='images/', verbose_name=_('Image'))
     cover = models.ImageField(null=True, blank=True, upload_to='covers/', verbose_name=_('Cover Image'))
     qr_code = models.PositiveIntegerField(unique=True, default=0, verbose_name=_('QR Code'))
+    gender = models.CharField(choices=GenderChoice.choices, default=GenderChoice.MALE, null=True, blank=True,
+                              max_length=100, verbose_name=_('Gender'))
+    date_of_birth = models.DateField(null=True, blank=True, verbose_name=_('Date of Birth'))
     create_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Creation Date'))
     update_at = models.DateTimeField(auto_now=True, verbose_name=_('Update Date'))
 
@@ -52,6 +63,13 @@ class Profile(models.Model):
         verbose_name = _('Profile')
         verbose_name_plural = _('Profiles')
         ordering = ['-create_at', '-update_at']
+
+    @property
+    def age(self) -> int:
+        now = date.today()
+        if not self.date_of_birth:
+            return 0
+        return now.year - self.date_of_birth.year - ((now.month, now.day) < (self.date_of_birth.month, self.date_of_birth.day))
 
 
 class VisitLog(models.Model):

@@ -12,11 +12,12 @@ User = get_user_model()
 
 
 class ProfileSerializer(serializers.ModelSerializer):
+    age = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Profile
         exclude = ()
-        read_only_fields = ('id', 'user', 'create_at', 'update_at', 'qr_code')
+        read_only_fields = ('id', 'user', 'create_at', 'update_at', 'qr_code', 'age')
 
 
 class CustomUserCreateSerializer(UserCreateSerializer):
