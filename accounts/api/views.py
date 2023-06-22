@@ -1,3 +1,5 @@
+from rest_framework import status
+from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, ListModelMixin
@@ -18,6 +20,26 @@ class ProfileViewSet(AllowAnyInSafeMethodOrCustomPermissionMixin, RetrieveModelM
     filterset_class = ProfileFilter
     permission_classes = [IsUserWithProfile]
 
+    def get_permission_classes(self, request):
+        if self.action == 'me':
+            return self.permission_classes
+        return super().get_permission_classes(request)
+
+    def get_object(self):
+        if self.action == 'me':
+            return self.request.user.profile
+        return super(ProfileViewSet, self).get_object()
+
+    @action(detail=False, methods=["GET", "PUT", "PATCH"], name='Get My Profile')
+    def me(self, request, *args, **kwargs):
+        if request.method == "GET":
+            return self.retrieve(request, *args, **kwargs)
+        elif request.method == "PUT":
+            return self.update(request, *args, **kwargs)
+        elif request.method == "PATCH":
+            return self.partial_update(request, *args, **kwargs)
+        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
 
 class VisitLogViewSet(AllowAnyInSafeMethodOrCustomPermissionMixin, CreateModelMixin, RetrieveModelMixin, ListModelMixin,
                       GenericViewSet):
@@ -28,6 +50,11 @@ class VisitLogViewSet(AllowAnyInSafeMethodOrCustomPermissionMixin, CreateModelMi
 
     def perform_create(self, serializer):
         serializer.save(visitor=self.request.user)
+
+    def get_permission_classes(self, request):
+        if self.action in ('my_visits', 'my_views'):
+            return self.permission_classes
+        return super().get_permission_classes(request)
 
     def get_queryset(self):
         queryset = super().get_queryset()
