@@ -7,6 +7,12 @@ from .models import Profile, User
 from .utils import create_profile_html, get_change_admin_url
 
 
+class ProfileInlineAdmin(admin.TabularInline):
+    model = Profile
+    extra = 0
+    can_delete = False
+
+
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ['__str__', 'create_at', 'update_at']
     search_fields = ['user__first_name', 'user__last_name', 'user__nick_name', 'position', 'bio']
@@ -61,5 +67,14 @@ class ProfileAdmin(admin.ModelAdmin):
     show_cover.short_description = ''
 
 
-admin.site.register(User, UserAdmin)
+class CustomUserAdmin(UserAdmin):
+    inlines = [ProfileInlineAdmin]
+
+    def get_inlines(self, request, obj):
+        if not obj or (obj and (obj.is_staff or obj.is_superuser)):
+            return []
+        return self.inlines
+
+
+admin.site.register(User, CustomUserAdmin)
 admin.site.register(Profile, ProfileAdmin)
