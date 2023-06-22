@@ -43,5 +43,6 @@ class VisitLogSerializer(FlexFieldsModelSerializer):
         fields = '__all__'
         read_only_fields = ('visitor', 'create_at')
         expandable_fields = {
+            'visitor': CustomUserSerializer,
             'profile': ProfileSerializer
         }
