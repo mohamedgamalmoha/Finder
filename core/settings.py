@@ -14,6 +14,7 @@ from pathlib import Path
 from datetime import timedelta
 
 import environ
+from django.utils.translation import gettext_lazy as _
 
 
 # Initialise environment variables
@@ -50,6 +51,7 @@ ALLOWED_HOSTS = [
 
 INSTALLED_APPS = [
     'jazzmin',
+    'modeltranslation',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -78,6 +80,7 @@ MIDDLEWARE = [
     'social_django.middleware.SocialAuthExceptionMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -148,6 +151,8 @@ LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
+
+USE_L10N = True
 
 USE_TZ = True
 
@@ -661,5 +666,22 @@ JAZZMIN_SETTINGS = {
     # override change forms on a per modeladmin basis
     "changeform_format_overrides": {"auth.user": "collapsible", "auth.group": "vertical_tabs"},
     # Add a language dropdown into the admin
-    "language_chooser": False,
+    "language_chooser": True,
 }
+
+
+# Translation Settings
+IS_MONOLINGUAL = False
+LANGUAGES = (
+    ('en', _('English')),
+    ('ar', _('Arabic')),
+)
+MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'
+MODELTRANSLATION_LANGUAGES = ('en', 'ar')
+MODELTRANSLATION_FALLBACK_LANGUAGES = ('en', 'ar')
+TRANSLATABLE_MODEL_MODULES = [
+    'info.models',
+]
+LOCALE_PATHS = [
+    BASE_DIR / 'locale'
+]

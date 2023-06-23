@@ -12,6 +12,7 @@ django-environ==0.10.0
 django-filter==23.2
 django-jazzmin==2.6.0
 django-middleware-global-request==0.3.1
+django-modeltranslation==0.18.10
 django-phonenumber-field==7.1.0
 django-templated-mail==1.1.1
 djangorestframework==3.14.0
