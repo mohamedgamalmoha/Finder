@@ -45,6 +45,7 @@ urlpatterns = [
 
     # Custom Apps
     path('api/', include('accounts.api.urls', namespace='accounts')),
+    path('api/', include('info.api.urls', namespace='info')),
 
     # Default Page
     # re_path(r'^.*', TemplateView.as_view(template_name='index.html'))
