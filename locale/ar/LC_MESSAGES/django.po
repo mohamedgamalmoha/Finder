@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-23 15:21+0200\n"
+"POT-Creation-Date: 2023-06-23 15:33+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -53,10 +53,12 @@ msgstr "في السبعينات"
 
 #: .\accounts\admin.py:88
 #, python-brace-format
-msgid ""
-"If you wanna edit the duplicate instance, <a style='color: white;' "
-"href='{url}'>Go here</a>"
-msgstr ""
+msgid "If you wanna edit the duplicate instance, <a style='color: white;' href='{url}'>Go here</a>"
+msgstr "إذا كنت ترغب في تعديل النسخة المكررة، <a style='color: white;' href='{url}'>اذهب هنا</a>"
+
+#: .\accounts\apps.py:8
+msgid "Accounts"
+msgstr "حسابات"
 
 #: .\accounts\models.py:13
 msgid "Male"
@@ -170,10 +172,10 @@ msgstr "سجل الزيارة"
 msgid "Visit Logs"
 msgstr "سجلات الزيارة"
 
-#: .\core\settings.py:673
+#: .\core\settings.py:676
 msgid "English"
 msgstr "الإنجليزية"
 
-#: .\core\settings.py:674
+#: .\core\settings.py:677
 msgid "Arabic"
 msgstr "العربية"
