@@ -1,7 +1,5 @@
-from django.db import models
 from django.contrib import admin, messages
 from django.contrib.auth.admin import UserAdmin
-from django.utils.timezone import localdate
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 
@@ -29,11 +27,7 @@ class AgeProfileListFilter(admin.SimpleListFilter):
         if val is None:
             return queryset
         start_age, end_age = self.value().split(',')
-        current_year = localdate().today().year
-        start_year, end_year = current_year - int(end_age), current_year - int(start_age)
-        return queryset.filter(
-            models.Q(date_of_birth__year__gte=start_year) & models.Q(date_of_birth__year__lte=end_year)
-        )
+        return queryset.age_range(start_age, end_age)
 
 
 class ProfileInlineAdmin(admin.TabularInline):
@@ -85,19 +79,22 @@ class ProfileAdmin(admin.ModelAdmin):
             except Exception as e:
                 messages.error(request, e)
             else:
-                messages.info(request, mark_safe(_(f"If you wanna edit the duplicate instance, <a style='color: white;' href='{url}'>Go here</a>")))
+                messages.info(request, mark_safe(
+                    _(f"If you wanna edit the duplicate instance, <a style='color: white;' href='{url}'>Go here</a>")))
         return field
 
     def show_image(self, obj):
         if obj.image:
             return create_profile_html(obj.image)
         return ''
+
     show_image.short_description = ''
 
     def show_cover(self, obj):
         if obj.cover:
             return create_profile_html(obj.cover)
         return ''
+
     show_cover.short_description = ''
 
 
