@@ -1,9 +1,8 @@
-from datetime import date
-
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import AbstractUser
+from django.utils.timezone import localdate
 from django.utils.translation import gettext_lazy as _
 
 from phonenumber_field.modelfields import PhoneNumberField
@@ -30,10 +29,40 @@ class User(AbstractUser):
         return self.email
 
 
+class ProfilerQuerySet(models.QuerySet):
+
+    def with_age(self):
+        current_date = localdate().today()
+        return self.exclude(date_of_birth__isnull=True).annotate(
+            calculated_age=models.ExpressionWrapper(
+                current_date.year - models.F('date_of_birth__year') -
+                models.Case(
+                    models.When(
+                        models.Q(date_of_birth__month__gt=current_date.month) |
+                        models.Q(date_of_birth__month=current_date.month, date_of_birth__day__gt=current_date.day),
+                        then=models.Value(1)
+                    ),
+                    default=models.Value(0),
+                    output_field=models.IntegerField()
+                ),
+                output_field=models.IntegerField()
+            )
+        )
+
+    def age_range(self, start, end):
+        return self.with_age().filter(calculated_age__gte=start, calculated_age__lte=end)
+
+
 class ProfileManager(models.Manager):
+
+    def get_queryset(self):
+        return ProfilerQuerySet(self.model, using=self._db)
 
     def active(self, *args, **kwargs):
         return super().get_queryset(*args, **kwargs).filter(user__is_active=True)
+
+    def age_range(self, start, end):
+        return self.get_queryset().age_range(start, end)
 
 
 class Profile(models.Model):
@@ -66,7 +95,7 @@ class Profile(models.Model):
 
     @property
     def age(self) -> int:
-        now = date.today()
+        now = localdate().today()
         if not self.date_of_birth:
             return 0
         return now.year - self.date_of_birth.year - ((now.month, now.day) < (self.date_of_birth.month, self.date_of_birth.day))
