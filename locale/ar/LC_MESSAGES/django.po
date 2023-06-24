@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-23 15:33+0200\n"
+"POT-Creation-Date: 2023-06-24 16:35+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,163 +19,308 @@ msgstr ""
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
-#: .\accounts\admin.py:13
+#: .\accounts\admin.py:11
 msgid "Age"
 msgstr "العمر"
 
-#: .\accounts\admin.py:18
+#: .\accounts\admin.py:16
 msgid "Under Aage"
 msgstr "تحت السن القانوني"
 
-#: .\accounts\admin.py:19
+#: .\accounts\admin.py:17
 msgid "In the twenties"
 msgstr "في العشرينات"
 
-#: .\accounts\admin.py:20
+#: .\accounts\admin.py:18
 msgid "In the thirties"
 msgstr "في الثلاثينات"
 
-#: .\accounts\admin.py:21
+#: .\accounts\admin.py:19
 msgid "In the forties"
 msgstr "في الأربعينات"
 
-#: .\accounts\admin.py:22
+#: .\accounts\admin.py:20
 msgid "In the fifties"
 msgstr "في الخمسينات"
 
-#: .\accounts\admin.py:23
+#: .\accounts\admin.py:21
 msgid "In the sixties"
 msgstr "في الستينات"
 
-#: .\accounts\admin.py:24
+#: .\accounts\admin.py:22
 msgid "In the seventies"
 msgstr "في السبعينات"
 
-#: .\accounts\admin.py:88
+#: .\accounts\admin.py:83
 #, python-brace-format
-msgid "If you wanna edit the duplicate instance, <a style='color: white;' href='{url}'>Go here</a>"
-msgstr "إذا كنت ترغب في تعديل النسخة المكررة، <a style='color: white;' href='{url}'>اذهب هنا</a>"
+msgid ""
+"If you wanna edit the duplicate instance, <a style='color: white;' "
+"href='{url}'>Go here</a>"
+msgstr ""
+"إذا كنت ترغب في تعديل النسخة المكررة، <a style='color: white;' "
+"href='{url}'>اذهب هنا</a>"
 
 #: .\accounts\apps.py:8
 msgid "Accounts"
 msgstr "حسابات"
 
-#: .\accounts\models.py:13
+#: .\accounts\models.py:12
 msgid "Male"
 msgstr "ذكر"
 
-#: .\accounts\models.py:14
+#: .\accounts\models.py:13
 msgid "Female"
 msgstr "أنثى"
 
-#: .\accounts\models.py:15
+#: .\accounts\models.py:14
 msgid "Other"
 msgstr "آخر"
 
-#: .\accounts\models.py:19
+#: .\accounts\models.py:18
 msgid "Email Address"
 msgstr "عنوان البريد الإلكتروني"
 
-#: .\accounts\models.py:20
+#: .\accounts\models.py:19
 msgid "Nick Name"
 msgstr "الاسم المستعار"
 
-#: .\accounts\models.py:26 .\accounts\models.py:40
+#: .\accounts\models.py:25 .\accounts\models.py:69
 msgid "User"
 msgstr "مستخدم"
 
-#: .\accounts\models.py:27
+#: .\accounts\models.py:26
 msgid "Users"
 msgstr "المستخدمون"
 
-#: .\accounts\models.py:41
+#: .\accounts\models.py:70
 msgid "Position"
 msgstr "المنصب"
 
-#: .\accounts\models.py:42
+#: .\accounts\models.py:71
 msgid "Bio"
 msgstr "السيرة الذاتية"
 
-#: .\accounts\models.py:43
+#: .\accounts\models.py:72
 msgid "Phone Number 1"
 msgstr "رقم الهاتف 1"
 
-#: .\accounts\models.py:44
+#: .\accounts\models.py:73
 msgid "Phone Number 2"
 msgstr "رقم الهاتف 2"
 
-#: .\accounts\models.py:45
+#: .\accounts\models.py:74
 msgid "City"
 msgstr "المدينة"
 
-#: .\accounts\models.py:46
+#: .\accounts\models.py:75
 msgid "Country"
 msgstr "البلد"
 
-#: .\accounts\models.py:47
+#: .\accounts\models.py:76
 msgid "Address"
 msgstr "العنوان"
 
-#: .\accounts\models.py:48
+#: .\accounts\models.py:77 .\info\models.py:113
 msgid "Image"
 msgstr "الصورة"
 
-#: .\accounts\models.py:49
+#: .\accounts\models.py:78
 msgid "Cover Image"
 msgstr "صورة الغلاف"
 
-#: .\accounts\models.py:50
+#: .\accounts\models.py:79
 msgid "QR Code"
 msgstr "رمز الاستجابة السريعة"
 
-#: .\accounts\models.py:52
+#: .\accounts\models.py:81
 msgid "Gender"
 msgstr "الجنس"
 
-#: .\accounts\models.py:53
+#: .\accounts\models.py:82
 msgid "Date of Birth"
 msgstr "تاريخ الميلاد"
 
-#: .\accounts\models.py:54 .\accounts\models.py:81
+#: .\accounts\models.py:83 .\accounts\models.py:110 .\info\models.py:95
 msgid "Creation Date"
 msgstr "تاريخ الإنشاء"
 
-#: .\accounts\models.py:55
+#: .\accounts\models.py:84 .\info\models.py:96
 msgid "Update Date"
 msgstr "تاريخ التحديث"
 
-#: .\accounts\models.py:63
+#: .\accounts\models.py:92
 msgid "Profile"
 msgstr "الملف الشخصي"
 
-#: .\accounts\models.py:64
+#: .\accounts\models.py:93
 msgid "Profiles"
 msgstr "الملفات الشخصية"
 
-#: .\accounts\models.py:77
+#: .\accounts\models.py:106
 msgid "Visitor"
 msgstr "الزائر"
 
-#: .\accounts\models.py:79
+#: .\accounts\models.py:108
 msgid "Visited Profile"
 msgstr "الملف الشخصي المُزار"
 
-#: .\accounts\models.py:80
+#: .\accounts\models.py:109
 msgid "Is scanned by qr code"
 msgstr "تم مسحه بواسطة رمز الاستجابة السريعة"
 
-#: .\accounts\models.py:84
+#: .\accounts\models.py:113
 msgid "Visit Log"
 msgstr "سجل الزيارة"
 
-#: .\accounts\models.py:85
+#: .\accounts\models.py:114
 msgid "Visit Logs"
 msgstr "سجلات الزيارة"
 
-#: .\core\settings.py:676
+#: .\core\settings.py:677
 msgid "English"
 msgstr "الإنجليزية"
 
-#: .\core\settings.py:677
+#: .\core\settings.py:678
 msgid "Arabic"
 msgstr "العربية"
+
+#: .\info\models.py:8
+msgid "Facebook Link"
+msgstr "رابط الفيسبوك"
+
+#: .\info\models.py:9
+msgid "Instagram Link"
+msgstr "رابط الانستيجرام"
+
+#: .\info\models.py:10
+msgid "Twitter Link"
+msgstr "رابط تويتر"
+
+#: .\info\models.py:11
+msgid "Telegram Link"
+msgstr "رابط التليحرام"
+
+#: .\info\models.py:12
+msgid "Web Email"
+msgstr "الاميل الرسمي"
+
+#: .\info\models.py:13
+msgid "Whatsapp Number"
+msgstr "رقم الواتساب"
+
+#: .\info\models.py:14
+msgid "Why do you choose us?"
+msgstr "لماذا نحن؟"
+
+#: .\info\models.py:17 .\info\models.py:18
+msgid "Website Main Info"
+msgstr "المعلومات الاساسية للموقع"
+
+#: .\info\models.py:25
+msgid "Whatsapp Link"
+msgstr "رابط الواتساب"
+
+#: .\info\models.py:29
+msgid "Quote"
+msgstr "الاستفسار"
+
+#: .\info\models.py:30
+msgid "Answer"
+msgstr "الاجابة"
+
+#: .\info\models.py:33
+msgid "Frequently Asked Question"
+msgstr "الاسؤال الشائع"
+
+#: .\info\models.py:34
+msgid "Frequently Asked Questions"
+msgstr "الاسئلة الشائعة"
+
+#: .\info\models.py:41 .\info\models.py:53 .\info\models.py:65
+#: .\info\models.py:77
+msgid "Title"
+msgstr "العنوان"
+
+#: .\info\models.py:42 .\info\models.py:54 .\info\models.py:66
+#: .\info\models.py:78
+#, fuzzy
+#| msgid "Position"
+msgid "Description"
+msgstr "التفاصيل"
+
+#: .\info\models.py:45 .\info\models.py:46
+msgid "About us"
+msgstr "عننا"
+
+#: .\info\models.py:57 .\info\models.py:58
+msgid "Terms Of Service"
+msgstr "شروط الخدمة"
+
+#: .\info\models.py:69 .\info\models.py:70
+msgid "Cookie Policy"
+msgstr "سياسة الكوكيز"
+
+#: .\info\models.py:81 .\info\models.py:82
+msgid "Privacy Policy"
+msgstr "سياسة الخصوصية"
+
+#: .\info\models.py:89
+#, fuzzy
+#| msgid "Nick Name"
+msgid "First Name"
+msgstr "الاسم الاول"
+
+#: .\info\models.py:90
+msgid "Last name"
+msgstr "الاسم الثاني"
+
+#: .\info\models.py:91
+msgid "Email"
+msgstr "البريد الاكتروني"
+
+#: .\info\models.py:92
+#, fuzzy
+#| msgid "Phone Number 1"
+msgid "Phone Number"
+msgstr "رقم الهاتف 1"
+
+#: .\info\models.py:93
+msgid "Subject"
+msgstr "الموضوع"
+
+#: .\info\models.py:94
+msgid "Message"
+msgstr "الرسالة"
+
+#: .\info\models.py:99 .\info\models.py:100
+msgid "Contact Us"
+msgstr "اتصل بنا"
+
+#: .\info\models.py:110
+msgid "Alternative (Alt)"
+msgstr "بديل (Alt)"
+
+#: .\info\models.py:111
+msgid ""
+"Text is meant to convey the “why” of the image as it relates to the content "
+"of a document or webpage"
+msgstr "النص المقصود لنقل السبب وراء الصورة وكيف يرتبط ذلك بمحتوى الوثيقة أو الصفحة"
+
+
+#: .\info\models.py:114
+msgid "Setting it to false, makes the image disappear from homepage"
+msgstr "عند تعيينها على false، تختفي الصورة من الصفحة الرئيسية"
+
+#: .\info\models.py:115
+msgid "Active"
+msgstr "مفعل"
+
+#: .\info\models.py:123
+#, fuzzy
+#| msgid "Cover Image"
+msgid "Home Page Image"
+msgstr "صورة الغلاف"
+
+#: .\info\models.py:124
+msgid "Home Page Images"
+msgstr "صور الصفحة الرئيسية"
