@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, UserManager
 from django.utils.timezone import localdate
 from django.utils.translation import gettext_lazy as _
 
@@ -14,12 +14,23 @@ class GenderChoice(models.TextChoices):
     OTHER = "O", _("Other")
 
 
+class CustomUserManager(UserManager):
+
+    def active(self, *args, **kwargs):
+        return super().get_queryset(*args, **kwargs).filter(is_active=True)
+
+    def with_profile(self):
+        return self.active().filter(profile__isnull=False)
+
+
 class User(AbstractUser):
     email = models.EmailField(blank=False, unique=True, verbose_name=_('Email Address'))
     nick_name = models.CharField(max_length=150, blank=True, verbose_name=_('Nick Name'))
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username', 'first_name', 'last_name', 'nick_name']
+
+    objects = CustomUserManager()
 
     class Meta(AbstractUser.Meta):
         verbose_name = _('User')
