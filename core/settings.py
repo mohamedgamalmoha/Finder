@@ -592,14 +592,14 @@ JAZZMIN_SETTINGS = {
     "site_icon": None,
 
     # Welcome text on the login screen
-    "welcome_sign": "Welcome to Finder",
+    "welcome_sign": "Welcome To Finder",
 
     # Copyright on the footer
     "copyright": "Finder Development Team",
 
     # List of model admins to search from the search bar, search bar omitted if excluded
     # If you want to use a single search field you dont need to use a list, you can use a simple string
-    "search_model": ["accounts.User", "auth.Group"],
+    "search_model": [ "auth.Group", "accounts.User", "accounts.profile"],
 
     # Field name on user model that contains avatar ImageField/URLField/Charfield or a callable that receives the user
     "user_avatar": None,
@@ -614,14 +614,8 @@ JAZZMIN_SETTINGS = {
         # Url that gets reversed (Permissions can be added)
         {"name": "Home",  "url": "admin:index", "permissions": ["auth.view_user"]},
 
-        # external url that opens in a new window (Permissions can be added)
-        {"name": "Support", "url": "https://github.com/farridav/django-jazzmin/issues", "new_window": True},
-
         # model admin to link to (Permissions checked against model)
-        {"model": "auth.User"},
-
-        # App with dropdown menu to all its models pages (Permissions checked against models)
-        # {"app": "books"},
+        {"app": "accounts"},
     ],
 
     #############
@@ -630,8 +624,6 @@ JAZZMIN_SETTINGS = {
 
     # Additional links to include in the user menu on the top right ("app" url type is not allowed)
     "usermenu_links": [
-        {"name": "Support", "url": "https://github.com/farridav/django-jazzmin/issues", "new_window": True},
-        {"model": "auth.user"}
     ],
 
     #############
@@ -651,7 +643,7 @@ JAZZMIN_SETTINGS = {
     "hide_models": [],
 
     # List of apps (and/or models) to base side menu ordering off of (does not need to contain all apps/models)
-    "order_with_respect_to": ["auth", ],
+    "order_with_respect_to": ["accounts", ],
 
     # Custom links to append to app groups, keyed on app name
     "custom_links": {
@@ -661,8 +653,17 @@ JAZZMIN_SETTINGS = {
     # for the full list of 5.13.0 free icon classes
     "icons": {
         "auth": "fas fa-users-cog",
-        "auth.user": "fas fa-user",
         "auth.Group": "fas fa-users",
+        "accounts.user": "fas fa-user",
+        "accounts.profile": "fas fa-id-card",
+        "info.aboutus": "fas fa-info",
+        "info.contactus": "fas fa-headset",
+        "info.cookiepolicy": "fas fa-cookie-bite",
+        "info.faqs": "fas fa-question",
+        "info.headerimage": "fas fa-images",
+        "info.privacypolicy": "fas fa-user-secret",
+        "info.termsofservice": "fas fa-handshake",
+        "info.maininfo": "fas fa-server"
     },
     # Icons that are used when one is not manually specified
     "default_icon_parents": "fas fa-chevron-circle-right",
@@ -696,7 +697,7 @@ JAZZMIN_SETTINGS = {
     # - carousel
     "changeform_format": "horizontal_tabs",
     # override change forms on a per modeladmin basis
-    "changeform_format_overrides": {"auth.user": "collapsible", "auth.group": "vertical_tabs"},
+    "changeform_format_overrides": {"accounts.user": "carousel"},
     # Add a language dropdown into the admin
     "language_chooser": True,
 }
