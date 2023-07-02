@@ -3,6 +3,9 @@ from django.contrib.auth.admin import UserAdmin
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 
+from social_django.models import UserSocialAuth, Nonce, Association
+from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken, OutstandingToken
+
 from .models import Profile, User
 from .utils import create_profile_html, get_change_admin_url
 
@@ -107,5 +110,10 @@ class CustomUserAdmin(UserAdmin):
         return self.inlines
 
 
+admin.site.unregister(Nonce)
+admin.site.unregister(Association)
+admin.site.unregister(UserSocialAuth)
+admin.site.unregister(BlacklistedToken)
+admin.site.unregister(OutstandingToken)
 admin.site.register(User, CustomUserAdmin)
 admin.site.register(Profile, ProfileAdmin)
