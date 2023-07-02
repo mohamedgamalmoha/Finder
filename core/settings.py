@@ -239,8 +239,8 @@ DJOSER = {
         "username_reset_confirm": ["rest_framework.permissions.AllowAny"],
         "set_username": ["djoser.permissions.CurrentUserOrAdmin"],
         "user_create": ["rest_framework.permissions.AllowAny"],
-        "user": ["djoser.permissions.CurrentUserOrAdmin"],
-        "user_list": ["djoser.permissions.CurrentUserOrAdmin"],
+        "user": ["djoser.permissions.CurrentUserOrAdminOrReadOnly"],
+        "user_list": ["djoser.permissions.CurrentUserOrAdminOrReadOnly"],
         "token_create": ["rest_framework.permissions.AllowAny"],
     },
     'SERIALIZERS': {
