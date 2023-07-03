@@ -1,13 +1,13 @@
 from django.contrib import admin, messages
 from django.contrib.auth.admin import UserAdmin
 from django.utils.safestring import mark_safe
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy as _, ngettext
 
 from social_django.models import UserSocialAuth, Nonce, Association
 from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken, OutstandingToken
 
 from .models import Profile, User
-from .utils import create_profile_html, get_change_admin_url
+from .utils import create_profile_html, get_change_admin_url, send_activation_mail
 
 
 class AgeProfileListFilter(admin.SimpleListFilter):
@@ -102,12 +102,64 @@ class ProfileAdmin(admin.ModelAdmin):
 
 
 class CustomUserAdmin(UserAdmin):
+    list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff', 'is_active')
+    actions = ['activate_users', 'deactivate_users', 'send_users_activation_mail']
     inlines = [ProfileInlineAdmin]
 
     def get_inlines(self, request, obj):
         if not obj or (obj and (obj.is_staff or obj.is_superuser)):
             return []
         return self.inlines
+
+    def deactivate_users(self, request, queryset):
+        updated = queryset.filter(is_active=True).update(is_active=False)
+        self.message_user(
+            request,
+            _(
+                ngettext(
+                    "%d user was successfully deactivated.",
+                    "%d users were successfully deactivated.",
+                    updated,
+                ) % updated
+            ),
+            messages.SUCCESS,
+        )
+
+    deactivate_users.short_description = _('Deactivate selected Users')
+
+    def activate_users(self, request, queryset):
+        updated = queryset.filter(is_active=False).update(is_active=True)
+        self.message_user(
+            request,
+            _(
+                ngettext(
+                    "%d user was successfully activated.",
+                    "%d users were successfully activated.",
+                    updated,
+                ) % updated
+            ),
+            messages.SUCCESS,
+        )
+
+    activate_users.short_description = _('Activate selected Users')
+
+    def send_users_activation_mail(self, request, queryset):
+        queryset = queryset.filter(is_active=False)
+        for user in queryset:
+            send_activation_mail(request, user)
+        self.message_user(
+            request,
+            _(
+                ngettext(
+                    "%d user has successfully received the email.",
+                    "%d users have successfully received the email.",
+                    queryset,
+                ) % queryset
+            ),
+            messages.SUCCESS,
+        )
+
+    send_users_activation_mail.short_description = _('Send activation mail')
 
 
 admin.site.unregister(Nonce)

@@ -5,6 +5,9 @@ from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django.contrib.contenttypes.models import ContentType
 
+from djoser.conf import settings
+from djoser.compat import get_user_email
+
 
 def generate_random_number(lower_limit: int, upper_limit: int, exclude: List[int] = None) -> int:
     number = random.randint(lower_limit, upper_limit)
@@ -32,3 +35,9 @@ def get_change_admin_url(model_instance):
     admin_url = reverse("admin:{}_{}_change".format(content_type.app_label, content_type.model),
                         args=(model_instance.pk,))
     return admin_url
+
+
+def send_activation_mail(request, user):
+    context = {"user": user}
+    to = [get_user_email(user)]
+    settings.EMAIL.activation(request, context).send(to)
