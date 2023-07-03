@@ -1,3 +1,5 @@
+from typing import List, Tuple
+
 from rest_framework.exceptions import MethodNotAllowed
 from rest_framework.permissions import AllowAny, SAFE_METHODS
 
@@ -60,3 +62,22 @@ class AllowAnyInSafeMethodOrCustomPermissionMixin:
         if request.method in SAFE_METHODS:
             return self.save_method_permission_classes
         return super().get_permission_classes(request)
+
+
+class ThrottleActionsWithMethodsMixin:
+    """
+    Mixin to allow throttling actions with http methods.
+    In case of action and request method are existed in throttle_actions, the throttling is applied.
+    EG.:
+        [
+            ('retrieve', 'GET'),
+            ('update', 'PUT'),
+            ...
+        ]
+    """
+    throttle_actions: List[Tuple[str, str]] = []
+
+    def get_throttles(self):
+        if not ((self.action, self.request.method) in self.throttle_actions):
+            return []
+        return super().get_throttles()

@@ -8,10 +8,12 @@ from djoser.views import UserViewSet as DjoserUserViewSet
 from drf_spectacular.utils import extend_schema, OpenApiResponse
 
 from accounts.models import User, Profile, VisitLog
+from .throttling import UpdateRateThrottle
 from .permissions import IsUserWithProfile
 from .filters import ProfileFilter, VisitLogFilter, UserFilter
 from .serializers import ProfileSerializer, VisitLogSerializer
-from .mixins import AllowAnyInSafeMethodOrCustomPermissionMixin, DestroyMethodNotAllowedMixin
+from .mixins import (AllowAnyInSafeMethodOrCustomPermissionMixin, DestroyMethodNotAllowedMixin,
+                     ThrottleActionsWithMethodsMixin)
 
 
 class ProfileViewSet(AllowAnyInSafeMethodOrCustomPermissionMixin, RetrieveModelMixin, UpdateModelMixin, ListModelMixin,
@@ -78,15 +80,20 @@ class VisitLogViewSet(AllowAnyInSafeMethodOrCustomPermissionMixin, CreateModelMi
         return self.list(request, *args, **kwargs)
 
 
-class UserViewSet(DestroyMethodNotAllowedMixin, DjoserUserViewSet):
+class UserViewSet(ThrottleActionsWithMethodsMixin, DestroyMethodNotAllowedMixin, DjoserUserViewSet):
     queryset = User.objects.with_profile()
     filterset_class = UserFilter
+    throttle_classes = [UpdateRateThrottle]
+    throttle_actions = [
+        ('me', 'PUT'),
+        ('me', 'PATCH')
+    ]
 
     def get_queryset(self):
         user = self.request.user
         queryset = super(UserViewSet, self).get_queryset()
         if self.action == 'list' and hasattr(user, 'profile'):
-            queryset.exclude(user)
+            queryset.exclude(id=user.id)
         return queryset
 
     @extend_schema(responses={status.HTTP_405_METHOD_NOT_ALLOWED:
