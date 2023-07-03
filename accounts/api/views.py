@@ -93,7 +93,7 @@ class UserViewSet(ThrottleActionsWithMethodsMixin, DestroyMethodNotAllowedMixin,
         user = self.request.user
         queryset = super(UserViewSet, self).get_queryset()
         if self.action == 'list' and hasattr(user, 'profile'):
-            queryset.exclude(id=user.id)
+            queryset = queryset.exclude(id=user.id)
         return queryset
 
     @extend_schema(responses={status.HTTP_405_METHOD_NOT_ALLOWED:
