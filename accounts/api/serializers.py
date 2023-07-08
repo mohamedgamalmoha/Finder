@@ -5,7 +5,7 @@ from rest_flex_fields import FlexFieldsModelSerializer
 from rest_flex_fields.serializers import FlexFieldsSerializerMixin
 from djoser.serializers import UserSerializer, UserCreateSerializer
 
-from accounts.models import Profile, VisitLog
+from accounts.models import Profile, VisitLog, GenderChoice
 
 
 User = get_user_model()
@@ -18,6 +18,21 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = Profile
         exclude = ()
         read_only_fields = ('id', 'user', 'create_at', 'update_at', 'qr_code', 'age')
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+
+        # Set default image based on gender
+        if instance.gender == GenderChoice.FEMALE:
+            data['image'] = '/static/images/profile_female.png'
+        else:
+            data['image'] = '/static/images/profile_male.png'
+
+        # Set default cover in case of being empty
+        if not instance.cover:
+            data['cover'] = '/static/images/profile_cover.png'
+
+        return data
 
 
 class CustomUserCreateSerializer(UserCreateSerializer):
