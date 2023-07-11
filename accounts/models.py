@@ -129,6 +129,8 @@ class VisitLog(models.Model):
 class SocialLink(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='links', verbose_name=_('Profile'))
     url = models.URLField(blank=False, null=False, verbose_name=_('Link'))
+    is_active = models.BooleanField(default=True, blank=True, verbose_name=_('Active'),
+                                    help_text=_('Designates whether this link is viewed at the profile'))
     create_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Creation Date'))
     update_at = models.DateTimeField(auto_now=True, verbose_name=_('Update Date'))
 
