@@ -6,7 +6,7 @@ from django.utils.translation import gettext_lazy as _, ngettext
 from social_django.models import UserSocialAuth, Nonce, Association
 from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken, OutstandingToken
 
-from .models import Profile, User
+from .models import Profile, User, SocialLink
 from .utils import create_profile_html, get_change_admin_url, send_activation_mail
 
 
@@ -39,6 +39,13 @@ class ProfileInlineAdmin(admin.TabularInline):
     can_delete = False
 
 
+class SocialLinkInlineAdmin(admin.TabularInline):
+    model = SocialLink
+    extra = 0
+    can_delete = False
+    readonly_fields = ('domain', 'create_at', 'update_at')
+
+
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ['__str__', 'create_at', 'update_at']
     search_fields = ['user__first_name', 'user__last_name', 'user__nick_name', 'position', 'bio']
@@ -66,6 +73,7 @@ class ProfileAdmin(admin.ModelAdmin):
             'qr_code'
         )}),
     )
+    inlines = [SocialLinkInlineAdmin]
 
     def formfield_for_dbfield(self, db_field, request, **kwargs):
         """

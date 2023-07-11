@@ -126,6 +126,26 @@ class VisitLog(models.Model):
         ordering = ['-create_at', ]
 
 
+class SocialLink(models.Model):
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='links', verbose_name=_('Profile'))
+    url = models.URLField(blank=False, null=False, verbose_name=_('Link'))
+    create_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Creation Date'))
+    update_at = models.DateTimeField(auto_now=True, verbose_name=_('Update Date'))
+
+    class Meta:
+        verbose_name = _('Social Link')
+        verbose_name_plural = _('Social Links')
+        ordering = ('-create_at', '-update_at')
+
+    def __str__(self):
+        return self.domain
+
+    @property
+    def domain(self):
+        from .utils import get_hostname_from_url
+        return get_hostname_from_url(self.url)
+
+
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, *args, **kwargs):
     if instance and created and not (instance.is_staff or instance.is_superuser):

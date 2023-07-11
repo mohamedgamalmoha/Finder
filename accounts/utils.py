@@ -1,5 +1,6 @@
 import random
 from typing import List
+from urllib.parse import urlparse
 
 from django.urls import reverse
 from django.utils.safestring import mark_safe
@@ -41,3 +42,7 @@ def send_activation_mail(request, user):
     context = {"user": user}
     to = [get_user_email(user)]
     settings.EMAIL.activation(request, context).send(to)
+
+
+def get_hostname_from_url(url):
+    return urlparse(url).hostname
