@@ -1,17 +1,20 @@
+from django.db import models
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.viewsets import GenericViewSet
-from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, ListModelMixin
+from rest_framework.mixins import (CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, ListModelMixin,
+                                   DestroyModelMixin)
 
+from rest_flex_fields import is_expanded
 from djoser.views import UserViewSet as DjoserUserViewSet
 from drf_spectacular.utils import extend_schema, OpenApiResponse
 
-from accounts.models import User, Profile, VisitLog
+from accounts.models import User, Profile, VisitLog, SocialLink
 from .throttling import UpdateRateThrottle
 from .permissions import IsUserWithProfile
 from .filters import ProfileFilter, VisitLogFilter, UserFilter
-from .serializers import ProfileSerializer, VisitLogSerializer
+from .serializers import ProfileSerializer, VisitLogSerializer, SocialLinkSerializer
 from .mixins import (AllowAnyInSafeMethodOrCustomPermissionMixin, DestroyMethodNotAllowedMixin,
                      ThrottleActionsWithMethodsMixin)
 
@@ -21,7 +24,16 @@ class ProfileViewSet(AllowAnyInSafeMethodOrCustomPermissionMixin, RetrieveModelM
     queryset = Profile.objects.active()
     serializer_class = ProfileSerializer
     filterset_class = ProfileFilter
+    filterset_fields = ('links',)
     permission_classes = [IsUserWithProfile]
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        if self.action == 'list' and is_expanded(self.request, 'links'):
+            queryset = queryset.prefetch_related(
+                models.Prefetch('links', queryset=SocialLink.objects.filter(is_active=True))
+            )
+        return queryset
 
     def get_permission_classes(self, request):
         if self.action == 'me':
@@ -104,3 +116,20 @@ class UserViewSet(ThrottleActionsWithMethodsMixin, DestroyMethodNotAllowedMixin,
     @action(["get", "put", "patch"], detail=False)
     def me(self, request, *args, **kwargs):
         return super().me(request, *args, **kwargs)
+
+
+class SocialLinkViewSet(AllowAnyInSafeMethodOrCustomPermissionMixin, CreateModelMixin, UpdateModelMixin,
+                        DestroyModelMixin, ListModelMixin, GenericViewSet):
+    queryset = SocialLink.objects.all()
+    serializer_class = SocialLinkSerializer
+    permission_classes = [IsUserWithProfile]
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
+        if user.is_authenticated and hasattr(user, 'profile'):
+            queryset = queryset.filter(profile=user.profile)
+        return queryset
+
+    def perform_create(self, serializer):
+        serializer.save(profile=self.request.user.profile)

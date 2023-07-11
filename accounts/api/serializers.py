@@ -5,19 +5,31 @@ from rest_flex_fields import FlexFieldsModelSerializer
 from rest_flex_fields.serializers import FlexFieldsSerializerMixin
 from djoser.serializers import UserSerializer, UserCreateSerializer
 
-from accounts.models import Profile, VisitLog, GenderChoice
+from accounts.models import Profile, VisitLog, SocialLink, GenderChoice
 
 
 User = get_user_model()
 
 
-class ProfileSerializer(serializers.ModelSerializer):
+class SocialLinkSerializer(serializers.ModelSerializer):
+    domain = serializers.CharField(read_only=True)
+
+    class Meta:
+        model = SocialLink
+        exclude = ()
+        read_only_fields = ('id', 'profile', 'domain', 'create_at', 'update_at')
+
+
+class ProfileSerializer(FlexFieldsModelSerializer):
     age = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Profile
         exclude = ()
         read_only_fields = ('id', 'user', 'create_at', 'update_at', 'qr_code', 'age')
+        expandable_fields = {
+            'links': (SocialLinkSerializer, {'many': True, 'read_only': True})
+        }
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
