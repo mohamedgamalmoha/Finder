@@ -23,10 +23,11 @@ class ProfileSerializer(serializers.ModelSerializer):
         data = super().to_representation(instance)
 
         # Set default image based on gender
-        if instance.gender == GenderChoice.FEMALE:
-            data['image'] = '/static/images/profile_female.png'
-        else:
-            data['image'] = '/static/images/profile_male.png'
+        if not instance.image:
+            if instance.gender == GenderChoice.FEMALE:
+                data['image'] = '/static/images/profile_female.png'
+            else:
+                data['image'] = '/static/images/profile_male.png'
 
         # Set default cover in case of being empty
         if not instance.cover:
