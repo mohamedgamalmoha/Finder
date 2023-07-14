@@ -28,7 +28,9 @@ class ProfileSerializer(FlexFieldsModelSerializer):
         exclude = ()
         read_only_fields = ('id', 'user', 'create_at', 'update_at', 'qr_code', 'age')
         expandable_fields = {
-            'links': (SocialLinkSerializer, {'many': True, 'read_only': True})
+            'links': (SocialLinkSerializer, {'many': True, 'read_only': True}),
+            'user': ('accounts.api.serializers.CustomUserSerializer', {'many': False, 'read_only': True,
+                                                                       'omit': ['profile']})
         }
 
     def to_representation(self, instance):
