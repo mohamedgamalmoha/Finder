@@ -11,6 +11,7 @@ from djoser.views import UserViewSet as DjoserUserViewSet
 from drf_spectacular.utils import extend_schema, OpenApiResponse
 
 from accounts.models import User, Profile, VisitLog, SocialLink
+from .utils import user_has_profile
 from .throttling import UpdateRateThrottle
 from .permissions import IsUserWithProfile
 from .filters import ProfileFilter, VisitLogFilter, UserFilter
@@ -104,7 +105,7 @@ class UserViewSet(ThrottleActionsWithMethodsMixin, DestroyMethodNotAllowedMixin,
     def get_queryset(self):
         user = self.request.user
         queryset = super(UserViewSet, self).get_queryset()
-        if self.action == 'list' and hasattr(user, 'profile'):
+        if self.action == 'list' and user_has_profile(user):
             queryset = queryset.exclude(id=user.id)
         return queryset
 
@@ -127,7 +128,7 @@ class SocialLinkViewSet(AllowAnyInSafeMethodOrCustomPermissionMixin, CreateModel
     def get_queryset(self):
         queryset = super().get_queryset()
         user = self.request.user
-        if user.is_authenticated and hasattr(user, 'profile'):
+        if user.is_authenticated and user_has_profile(user):
             queryset = queryset.filter(profile=user.profile)
         return queryset
 
