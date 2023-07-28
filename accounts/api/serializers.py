@@ -1,4 +1,5 @@
 from django.contrib.auth.backends import get_user_model
+from django.utils.translation import gettext_lazy as _
 
 from rest_framework import serializers
 from rest_flex_fields import FlexFieldsModelSerializer
@@ -76,3 +77,9 @@ class VisitLogSerializer(FlexFieldsModelSerializer):
             'visitor': CustomUserSerializer,
             'profile': ProfileSerializer
         }
+
+    def validate_profile(self, profile):
+        user = self.context['request'].user
+        if profile.user == user:
+            raise serializers.ValidationError(_('Cant create visit for same profile'))
+        return profile
