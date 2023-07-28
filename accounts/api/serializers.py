@@ -64,7 +64,8 @@ class CustomUserSerializer(FlexFieldsSerializerMixin, UserSerializer):
         fields = (*UserSerializer.Meta.fields, 'profile')
         read_only_fields = (*UserSerializer.Meta.read_only_fields, 'profile')
         expandable_fields = {
-            'profile': (ProfileSerializer, {'many': False})
+            'profile': (ProfileSerializer, {'many': False}),
+            'visits': ('accounts.api.serializers.VisitLogSerializer', {'many': True, 'read_only': True})
         }
 
 
