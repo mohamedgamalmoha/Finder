@@ -1,4 +1,4 @@
-from accounts.model import Profile
+from accounts.models import Profile
 
 
 def user_has_profile(user):
