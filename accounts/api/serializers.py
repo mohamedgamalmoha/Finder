@@ -31,7 +31,8 @@ class ProfileSerializer(FlexFieldsModelSerializer):
         expandable_fields = {
             'links': (SocialLinkSerializer, {'many': True, 'read_only': True}),
             'user': ('accounts.api.serializers.CustomUserSerializer', {'many': False, 'read_only': True,
-                                                                       'omit': ['profile']})
+                                                                       'omit': ['profile']}),
+            'visits': ('accounts.api.serializers.VisitLogSerializer', {'many': True, 'read_only': True})
         }
 
     def to_representation(self, instance):
