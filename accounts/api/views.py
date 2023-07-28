@@ -30,10 +30,12 @@ class ProfileViewSet(AllowAnyInSafeMethodOrCustomPermissionMixin, RetrieveModelM
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        if self.action == 'list' and is_expanded(self.request, 'links'):
-            queryset = queryset.prefetch_related(
-                models.Prefetch('links', queryset=SocialLink.objects.filter(is_active=True))
-            )
+        if self.action == 'list':
+            queryset = queryset.exclude(is_public=False)
+            if is_expanded(self.request, 'links'):
+                queryset = queryset.prefetch_related(
+                    models.Prefetch('links', queryset=SocialLink.objects.filter(is_active=True))
+                )
         return queryset
 
     def get_permission_classes(self, request):

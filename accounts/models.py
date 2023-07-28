@@ -78,6 +78,7 @@ class ProfileManager(models.Manager):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile', verbose_name=_('User'))
+    is_public = models.BooleanField(null=True, blank=True, default=True, verbose_name=_('Is Public'))
     position = models.CharField(null=True, blank=True, max_length=100, verbose_name=_('Position'))
     bio = models.TextField(null=True, blank=True, verbose_name=_('Bio'))
     phone_number_1 = PhoneNumberField(null=True, blank=True, verbose_name=_('Phone Number 1'))
