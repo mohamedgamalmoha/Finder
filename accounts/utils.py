@@ -28,7 +28,8 @@ def get_object_or_none(model, *args, **kwargs):
 
 def create_profile_html(image):
     return mark_safe(
-        f"""<a href='{image.url}'><img src="{image.url}" style="height:60%; border-radius: 50%; border: 6px solid gray;"></a>""")
+        f"""<a href='{image.url}'><img src="{image.url}" style="height:400px; width: 400px; border-radius: 50%; border: 
+        6px solid gray;"></a>""")
 
 
 def get_change_admin_url(model_instance):

@@ -64,8 +64,8 @@ class ProfileAdmin(admin.ModelAdmin):
             'address',
         )}),
         ('Images', {'fields': (
-            ('image', 'show_image'),
-            ('cover', 'show_cover'),
+            'image', 'show_image',
+            'cover', 'show_cover',
         )}),
         ('Extra', {'fields': (
             'gender',
