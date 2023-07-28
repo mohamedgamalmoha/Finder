@@ -1,8 +1,11 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
+
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.viewsets import GenericViewSet
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.mixins import (CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, ListModelMixin,
                                    DestroyModelMixin)
 
@@ -77,9 +80,9 @@ class VisitLogViewSet(AllowAnyInSafeMethodOrCustomPermissionMixin, CreateModelMi
     def get_queryset(self):
         queryset = super().get_queryset()
         if self.action == 'my_visits':
-            return queryset.filter(visitor=self.request.user)
+            return queryset.filter(visitor=self.request.user).exclude(hide_from_visitor=True)
         elif self.action == 'my_views':
-            return queryset.filter(profile=self.request.user.profile)
+            return queryset.filter(profile=self.request.user.profile).exclude(hide_from_profile=True)
         return queryset
 
     @extend_schema(responses={200: VisitLogSerializer(many=True)})
@@ -93,6 +96,25 @@ class VisitLogViewSet(AllowAnyInSafeMethodOrCustomPermissionMixin, CreateModelMi
     def my_views(self, request,  *args, **kwargs):
         """Get list of user profile visits that others have made"""
         return self.list(request, *args, **kwargs)
+
+    @extend_schema(request=None, responses={200: None, 403: None},
+                   description="Hide visits from user\n"
+                               "\t-200: The visit is updated successfully.\n"
+                               "\t-403: The user is neither the visitor nor the profile belongs to him.\n")
+    @action(detail=True, methods=['POST'], name='Hide Visit', url_path='hide')
+    def hide(self, request,  *args, **kwargs):
+        user = request.user
+        profile = getattr(user, 'profile', None)
+        instance = self.get_object()
+        if instance.visitor == user:
+            instance.hide_from_visitor = True
+        elif instance.profile == profile:
+            instance.hide_from_profile = True
+        else:
+            raise PermissionDenied(detail=_('You do not have permission to perform this action. '
+                                            'You are neither the visitor nor the profile belongs to you.'))
+        instance.save()
+        return Response(status.HTTP_200_OK)
 
 
 class UserViewSet(ThrottleActionsWithMethodsMixin, DestroyMethodNotAllowedMixin, DjoserUserViewSet):

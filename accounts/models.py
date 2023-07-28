@@ -118,6 +118,8 @@ class VisitLog(models.Model):
                                 verbose_name=_('Visitor'))
     profile = models.ForeignKey(Profile, null=True, on_delete=models.CASCADE, related_name='visits',
                                 verbose_name=_('Visited Profile'))
+    hide_from_visitor = models.BooleanField(null=True, blank=True, default=False, verbose_name=_('Hide From Visitor'))
+    hide_from_profile = models.BooleanField(null=True, blank=True, default=False, verbose_name=_('Hide From Profile'))
     is_scanned = models.BooleanField(default=False, blank=True, verbose_name=_('Is scanned by qr code'))
     create_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Creation Date'))
 
