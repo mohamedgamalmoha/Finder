@@ -12,8 +12,7 @@ class UserFilter(filters.FilterSet):
         """Search first & last & nick name, and email"""
         return queryset.filter(
             models.Q(first_name__icontains=value) | models.Q(last_name__icontains=value) |
-            models.Q(nick_name__icontains=value) | models.Q(email__icontains=value) |
-            models.Q(username__icontains=value)
+            models.Q(email__icontains=value) | models.Q(username__icontains=value)
         )
 
     class Meta:

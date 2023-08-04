@@ -48,7 +48,7 @@ class SocialLinkInlineAdmin(admin.TabularInline):
 
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ['__str__', 'create_at', 'update_at']
-    search_fields = ['user__first_name', 'user__last_name', 'user__nick_name', 'position', 'bio']
+    search_fields = ['user__first_name', 'user__last_name', 'bio']
     date_hierarchy = 'create_at'
     list_filter = ['is_public', 'gender', AgeProfileListFilter]
     readonly_fields = ['user', 'create_at', 'update_at', 'show_image', 'show_cover', 'age']
@@ -56,7 +56,6 @@ class ProfileAdmin(admin.ModelAdmin):
         ('User Main Info', {'fields': (
             'user',
             'is_public',
-            'position',
             'bio',
             ('phone_number_1', 'phone_number_2'),
         )}),

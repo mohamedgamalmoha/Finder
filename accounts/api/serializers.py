@@ -57,7 +57,7 @@ class ProfileSerializer(FlexFieldsModelSerializer):
 class CustomUserCreateSerializer(UserCreateSerializer):
 
     class Meta(UserCreateSerializer.Meta):
-        fields = (*UserCreateSerializer.Meta.fields, 'nick_name')
+        fields = UserCreateSerializer.Meta.fields
 
 
 class CustomUserSerializer(FlexFieldsSerializerMixin, UserSerializer):
