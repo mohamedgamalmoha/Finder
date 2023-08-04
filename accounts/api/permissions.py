@@ -21,7 +21,7 @@ class IsUserWithProfile(BasePermission):
         if isinstance(obj, Profile):
             return request.user == obj.user
         if isinstance(obj, VisitLog):
-            return request.user == obj.visitor
+            return request.user == obj.visitor or request.user == obj.profile.user
         return False
 
 
