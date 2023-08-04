@@ -38,16 +38,18 @@ class ProfileSerializer(FlexFieldsModelSerializer):
     def to_representation(self, instance):
         data = super().to_representation(instance)
 
+        request = self.context['request']
+
         # Set default image based on gender
         if not instance.image:
             if instance.gender == GenderChoice.FEMALE:
-                data['image'] = '/static/images/profile_female.png'
+                data['image'] = request.build_absolute_uri('/static/images/profile_female.png')
             else:
-                data['image'] = '/static/images/profile_male.png'
+                data['image'] = request.build_absolute_uri('/static/images/profile_male.png')
 
         # Set default cover in case of being empty
         if not instance.cover:
-            data['cover'] = '/static/images/profile_cover.png'
+            data['cover'] = request.build_absolute_uri('/static/images/profile_cover.png')
 
         return data
 
