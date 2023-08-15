@@ -1,6 +1,6 @@
 from rest_framework.permissions import BasePermission, SAFE_METHODS
 
-from accounts.models import Profile, VisitLog
+from accounts.models import Profile, VisitLog, SocialLink
 from .utils import user_has_profile
 
 
@@ -22,6 +22,8 @@ class IsUserWithProfile(BasePermission):
             return request.user == obj.user
         if isinstance(obj, VisitLog):
             return request.user == obj.visitor or request.user == obj.profile.user
+        if isinstance(obj, SocialLink):
+            return request.user.profile == obj.profile
         return False
 
 
