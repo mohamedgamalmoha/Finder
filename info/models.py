@@ -113,6 +113,7 @@ class HeaderImage(models.Model):
     image = models.ImageField(upload_to='home/header', verbose_name=_("Image"))
     active = models.BooleanField(default=True, help_text=_("Setting it to false, makes the image disappear from homepage"),
                                  verbose_name=_("Active"))
+    url = models.URLField(null=True, blank=True, verbose_name=_('Link'))
 
     objects = HeaderImageManager()
 
