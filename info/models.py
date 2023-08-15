@@ -18,7 +18,7 @@ class MainInfo(models.Model):
         verbose_name_plural = _('Website Main Info')
 
     def __str__(self):
-        return self.mail
+        return self.email
 
     def whatsapp_link(self):
         return f"https://wa.me/+2{self.whatsapp}"
