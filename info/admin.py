@@ -2,6 +2,7 @@ from django.contrib import admin
 
 from modeltranslation.admin import TranslationAdmin
 
+from .utils import get_model_fields_names
 from .models import MainInfo, FAQs, AboutUs, TermsOfService, CookiePolicy, PrivacyPolicy, ContactUs, HeaderImage
 
 
@@ -20,6 +21,11 @@ class MainInfoAdmin(TranslationAdmin):
 class ContactUsAdmin(admin.ModelAdmin):
     list_display = ('email', 'phone_number', 'subject', 'create_at', 'update_at')
     search_fields = ('email', 'subject', 'first_name', 'last_name', 'message')
+
+    def get_readonly_fields(self, request, obj=None):
+        if obj:
+            return get_model_fields_names(obj, exclude=['id'])
+        return super().get_readonly_fields(request, obj)
 
 
 class TitledDescriptiveTranslationAdmin(TranslationAdmin):
