@@ -117,7 +117,7 @@ class VisitLogViewSet(AllowAnyInSafeMethodOrCustomPermissionMixin, CreateModelMi
         return Response(status.HTTP_200_OK)
 
 
-class UserViewSet(ThrottleActionsWithMethodsMixin, DestroyMethodNotAllowedMixin, DjoserUserViewSet):
+class UserViewSet(ThrottleActionsWithMethodsMixin, DjoserUserViewSet):
     queryset = User.objects.with_profile()
     filterset_class = UserFilter
     throttle_classes = [UpdateRateThrottle]

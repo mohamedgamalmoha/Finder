@@ -233,7 +233,7 @@ SIMPLE_JWT = {
 DJOSER = {
     'PERMISSIONS': {
         'token_destroy': ['rest_framework.permissions.IsAuthenticated'],
-        'user_delete': ['accounts.api.permissions.DenyDelete'],
+        'user_delete': ['djoser.permissions.CurrentUserOrAdmin'],
         "activation": ["rest_framework.permissions.AllowAny"],
         "password_reset": ["rest_framework.permissions.AllowAny"],
         "password_reset_confirm": ["rest_framework.permissions.AllowAny"],
