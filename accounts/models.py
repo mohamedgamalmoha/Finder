@@ -7,11 +7,7 @@ from django.utils.translation import gettext_lazy as _
 
 from phonenumber_field.modelfields import PhoneNumberField
 
-
-class GenderChoice(models.TextChoices):
-    MALE = "M", _("Male")
-    FEMALE = "F", _("Female")
-    OTHER = "O", _("Other")
+from .enums import GenderChoice
 
 
 class CustomUserManager(UserManager):
