@@ -9,6 +9,8 @@ from django.contrib.contenttypes.models import ContentType
 from djoser.conf import settings
 from djoser.compat import get_user_email
 
+from .enums import SocialLinkIconChoice
+
 
 def generate_random_number(lower_limit: int, upper_limit: int, exclude: List[int] = None) -> int:
     number = random.randint(lower_limit, upper_limit)
@@ -46,4 +48,19 @@ def send_activation_mail(request, user):
 
 
 def get_hostname_from_url(url):
-    return urlparse(url).hostname
+    # Get hostname from url
+    hostname = urlparse(url).hostname
+
+    # Remove the www. prefix, if present.
+    if hostname.startswith("www."):
+        hostname = hostname[4:]
+
+    return hostname
+
+
+def get_icon_from_hostname(hostname):
+    choices = SocialLinkIconChoice.choices
+    for key, val in choices:
+        if key == hostname:
+            return val
+    return SocialLinkIconChoice.OTHER

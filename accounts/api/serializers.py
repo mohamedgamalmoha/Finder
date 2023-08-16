@@ -6,6 +6,7 @@ from rest_flex_fields import FlexFieldsModelSerializer
 from rest_flex_fields.serializers import FlexFieldsSerializerMixin
 from djoser.serializers import UserSerializer, UserCreateSerializer
 
+from accounts.utils import get_icon_from_hostname
 from accounts.models import Profile, VisitLog, SocialLink, GenderChoice
 
 
@@ -14,11 +15,15 @@ User = get_user_model()
 
 class SocialLinkSerializer(serializers.ModelSerializer):
     domain = serializers.CharField(read_only=True)
+    icon = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = SocialLink
-        exclude = ()
-        read_only_fields = ('id', 'profile', 'domain', 'create_at', 'update_at')
+        fields = ('id', 'profile', 'url', 'is_active', 'domain', 'icon', 'create_at', 'update_at')
+        read_only_fields = ('id', 'profile', 'domain', 'icon', 'create_at', 'update_at')
+
+    def get_icon(self, instance) -> str:
+        return get_icon_from_hostname(instance.domain)
 
 
 class ProfileSerializer(FlexFieldsModelSerializer):
