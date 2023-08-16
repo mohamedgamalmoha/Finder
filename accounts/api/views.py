@@ -10,8 +10,8 @@ from rest_framework.mixins import (CreateModelMixin, RetrieveModelMixin, UpdateM
                                    DestroyModelMixin)
 
 from rest_flex_fields import is_expanded
+from drf_spectacular.utils import extend_schema
 from djoser.views import UserViewSet as DjoserUserViewSet
-from drf_spectacular.utils import extend_schema, OpenApiResponse
 
 from accounts.models import User, Profile, VisitLog, SocialLink
 from .utils import user_has_profile
@@ -19,8 +19,7 @@ from .throttling import UpdateRateThrottle
 from .permissions import IsUserWithProfile
 from .filters import ProfileFilter, VisitLogFilter, UserFilter
 from .serializers import ProfileSerializer, VisitLogSerializer, SocialLinkSerializer
-from .mixins import (AllowAnyInSafeMethodOrCustomPermissionMixin, DestroyMethodNotAllowedMixin,
-                     ThrottleActionsWithMethodsMixin)
+from .mixins import AllowAnyInSafeMethodOrCustomPermissionMixin, ThrottleActionsWithMethodsMixin
 
 
 class ProfileViewSet(AllowAnyInSafeMethodOrCustomPermissionMixin, RetrieveModelMixin, UpdateModelMixin, ListModelMixin,
@@ -132,15 +131,6 @@ class UserViewSet(ThrottleActionsWithMethodsMixin, DjoserUserViewSet):
         if self.action == 'list' and user_has_profile(user):
             queryset = queryset.exclude(id=user.id)
         return queryset
-
-    @extend_schema(responses={status.HTTP_405_METHOD_NOT_ALLOWED:
-                              OpenApiResponse(description='Delete user is not allowed')})
-    def destroy(self, request, *args, **kwargs):
-        return super(UserViewSet, self).destroy(request, *args, **kwargs)
-
-    @action(["get", "put", "patch"], detail=False)
-    def me(self, request, *args, **kwargs):
-        return super().me(request, *args, **kwargs)
 
 
 class SocialLinkViewSet(AllowAnyInSafeMethodOrCustomPermissionMixin, CreateModelMixin, UpdateModelMixin,
