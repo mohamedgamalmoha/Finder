@@ -136,6 +136,13 @@ class UserViewSet(ThrottleActionsWithMethodsMixin, DjoserUserViewSet):
             queryset = queryset.exclude(id=user.id)
         return queryset
 
+    def perform_destroy(self, instance):
+        if getattr(settings, 'SEND_USER_DELETE_CONFIRMATION', True):
+            context = {"user": instance}
+            to = [get_user_email(instance)]
+            settings.EMAIL.user_delete(self.request, context).send(to)
+        instance.delete()
+
     @action(["post"], detail=False, url_path=f"set_{User.USERNAME_FIELD}")
     def set_username(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)

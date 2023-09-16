@@ -1,0 +1,21 @@
+{% load i18n %}
+
+{% block subject %}
+{% blocktrans %}{{ site_name }} - Account has delete !!{% endblocktrans %}
+{% endblock %}
+
+{% block text_body %}
+{% trans "Your account has been deleted !!" %}
+
+{% trans "Thanks for using our site!" %}
+
+{% blocktrans %}The {{ site_name }} Team{% endblocktrans %}
+{% endblock text_body %}
+
+{% block html_body %}
+<p>{% trans "We'd like to express our deepest regrets that our service did not meet your expectations or needs. It's always our aim to provide the best experience to our valued users like you." %}</p>
+
+<p>{% trans "Thank you for giving us the opportunity to serve you. We wish you all the best in your future endeavors." %}</p>
+
+<p>{% blocktrans %}The {{ site_name }} Team{% endblocktrans %}</p>
+{% endblock html_body %}
