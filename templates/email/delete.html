@@ -13,9 +13,5 @@
 {% endblock text_body %}
 
 {% block html_body %}
-<p>{% trans "We'd like to express our deepest regrets that our service did not meet your expectations or needs. It's always our aim to provide the best experience to our valued users like you." %}</p>
-
-<p>{% trans "Thank you for giving us the opportunity to serve you. We wish you all the best in your future endeavors." %}</p>
-
-<p>{% blocktrans %}The {{ site_name }} Team{% endblocktrans %}</p>
+{% include 'email/base.html' with title="Account Has Deleted" body="We'd like to express our deepest regrets that our service did not meet your expectations or needs. It's always our aim to provide the best experience to our valued users like you.\nThank you for giving us the opportunity to serve you. We wish you all the best in your future endeavors ..." %}
 {% endblock html_body %}

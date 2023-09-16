@@ -1,0 +1,25 @@
+{% load i18n static %}
+
+{% block subject %}
+{% blocktrans %}Account activation on {{ site_name }}{% endblocktrans %}
+{% endblock subject %}
+
+
+{% block body %}
+{% trans "Please go to the following page to activate account:" %}
+{% endblock body %}
+
+{% block text_body %}
+{% blocktrans %}You're receiving this email because you need to finish activation process on {{ site_name }}.{% endblocktrans %}
+
+{% trans "Please go to the following page to activate account:" %}
+{{ protocol }}://{{ domain }}/{{ url|safe }}
+
+{% trans "Thanks for using our site!" %}
+
+{% blocktrans %}The {{ site_name }} team{% endblocktrans %}
+{% endblock text_body %}
+
+{% block html_body %}
+{% include 'email/base.html' with title="Account Activation" body="Thank you for signing up with us. Before you can start using your account, please activate it by clicking the link." %}
+{% endblock html_body %}
