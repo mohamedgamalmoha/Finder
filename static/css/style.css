@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+body {
+  background-color: #000;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.container {
+  padding: 3rem;
+  background-color: #000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3rem;
+  align-items: center;
+  height: 100%;
+}
+.message {
+    padding: 3rem;
+    padding-top: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 600px;
+    width: 100%;
+    /* border: 1px solid #fff; */
+    border-radius: 25px;
+}
+.message p {
+    text-align: center;
+    color: #fff;
+    font-size: 1.5rem;
+
+}
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 2rem;
+  max-width: 600px;
+  width: 90%;
+  background-color: #272727;
+  padding: 3rem;
+  border-radius: 25px;
+}
+.logo {
+  max-width: 300px;
+  width: 90%;
+  margin:3rem auto;
+}
+label {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  color: #fff;
+}
+input {
+  padding: 1rem;
+  background-color: #f8f8f8;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  color: #000;
+  outline: 1px solid #fbd02d;
+}
+button {
+    cursor: pointer;
+  background-color: #000;
+  font-weight: bold;
+  color: #fbd02d;
+  padding: 1rem 2rem;
+  border-radius: 25px;
+  border: none;
+  transition: all 250ms ease-in-out;
+}
+button:hover {
+    background-color: #fbd02d;
+    color: #000;
+}
+@media screen and (max-width: 768px) {
+   
+    .container {
+        padding:0 3rem ;
+        min-height: 100vh;
+        height: 100%;
+        background-color: #000;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 3rem;
+        align-items: center;
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        gap: 2rem;
+        max-width: 100%;
+        width: 100%;
+        background-color: #272727;
+        padding: 3rem;
+        border-radius: 0;
+        border-top-right-radius: 25px;
+        border-top-left-radius: 25px;
+        margin: 0;
+      }
+      .logo {
+        max-width: 300px;
+        width: 90%;
+        margin: auto;
+      }
+}
+.hidden {
+    display: none
+}
+ul {
+    color: #fff;
+    margin-top: 0px;
+}
