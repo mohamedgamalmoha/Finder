@@ -7,7 +7,7 @@ from social_django.models import UserSocialAuth, Nonce, Association
 from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken, OutstandingToken
 
 from .models import Profile, User, SocialLink
-from .utils import create_profile_html, get_change_admin_url, send_activation_mail
+from .utils import create_profile_html, get_change_admin_url, send_activation_mail, send_confirmation_mail
 
 
 class AgeProfileListFilter(admin.SimpleListFilter):
@@ -121,6 +121,8 @@ class CustomUserAdmin(UserAdmin):
 
     def deactivate_users(self, request, queryset):
         updated = queryset.filter(is_active=True).update(is_active=False)
+        for user in queryset:
+            send_activation_mail(request, user)
         self.message_user(
             request,
             _(
@@ -137,6 +139,8 @@ class CustomUserAdmin(UserAdmin):
 
     def activate_users(self, request, queryset):
         updated = queryset.filter(is_active=False).update(is_active=True)
+        for user in queryset:
+            send_confirmation_mail(request, user)
         self.message_user(
             request,
             _(

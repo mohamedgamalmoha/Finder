@@ -47,6 +47,12 @@ def send_activation_mail(request, user):
     settings.EMAIL.activation(request, context).send(to)
 
 
+def send_confirmation_mail(request, user):
+    context = {"user": user}
+    to = [get_user_email(user)]
+    settings.EMAIL.confirmation(request, context).send(to)
+
+
 def get_hostname_from_url(url):
     # Get hostname from url
     hostname = urlparse(url).hostname
